@@ -8,7 +8,6 @@
 <link rel="manifest" href="manifest.json" />
 <link rel="icon" href="icons/icon-192.png" />
 <link rel="apple-touch-icon" href="icons/icon-192.png" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css" />
 <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -20,7 +19,9 @@
       <img src="logo-shield.png" alt="ARCUM" />
       <span class="brand-name"><span class="orange">ARCUM</span><span class="blue"> tareas</span></span>
     </div>
-    <button class="icon-btn" id="btn-whoami" title="Cambiar usuario"><i class="ti ti-user-circle"></i></button>
+    <button class="icon-btn" id="btn-whoami" title="Cambiar usuario">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
+    </button>
   </div>
 
   <!-- HOME VIEW -->
@@ -69,13 +70,21 @@
 </div>
 
 <!-- FAB -->
-<button class="fab" id="fab-add"><i class="ti ti-plus"></i></button>
+<button class="fab" id="fab-add">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+</button>
 
 <!-- Bottom nav -->
 <div class="bottom-nav">
   <div class="bottom-nav-inner">
-    <button class="nav-btn active" data-view="home"><i class="ti ti-home"></i>inicio</button>
-    <button class="nav-btn" data-view="indicators"><i class="ti ti-chart-bar"></i>resumen</button>
+    <button class="nav-btn active" data-view="home">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+      inicio
+    </button>
+    <button class="nav-btn" data-view="indicators">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="20" x2="4" y2="12"/><line x1="10" y1="20" x2="10" y2="6"/><line x1="16" y1="20" x2="16" y2="14"/><line x1="20" y1="20" x2="20" y2="9"/></svg>
+      resumen
+    </button>
   </div>
 </div>
 
@@ -85,7 +94,9 @@
     <div class="sheet-handle"></div>
     <div class="sheet-header">
       <span>Nueva tarea</span>
-      <button class="icon-btn" id="btn-close-sheet"><i class="ti ti-x"></i></button>
+      <button class="icon-btn" id="btn-close-sheet">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
     </div>
 
     <label class="field-label">Qué hay que hacer</label>

@@ -310,7 +310,9 @@ function taskCard(t) {
   wrap.className = "task-card" + (openCompleteId === t.id ? " complete-panel" : "");
 
   const checkClasses = ["task-check", `assignee-${t.assignee}`, t.completed ? "done" : ""].join(" ");
-  const checkIcon = t.completed ? `<i class="ti ti-check"></i>` : "";
+  const checkIcon = t.completed
+    ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 9 18 20 6"/></svg>`
+    : "";
 
   let dateRow = "";
   if (t.due_date && !t.completed) {
@@ -319,7 +321,7 @@ function taskCard(t) {
     const chipText = overdue ? "vencida" : (dleft === 0 ? "hoy" : `en ${dleft} día${dleft>1?"s":""}`);
     dateRow = `
       <div class="task-date-row">
-        <i class="ti ti-calendar-event" style="font-size:13px;color:var(--text-secondary);"></i>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><line x1="16" y1="3" x2="16" y2="7"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
         <span style="font-size:12px;color:var(--text-secondary);">estimada: ${fmtShort(t.due_date)}</span>
         <span class="due-chip ${overdue ? "overdue" : "upcoming"}">${chipText}</span>
       </div>`;
