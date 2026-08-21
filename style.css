@@ -122,7 +122,7 @@ body {
 .task-check.done.assignee-vale { background: var(--arcum-blue); }
 .task-check.done i { color: #fff; font-size: 13px; }
 
-.task-main { flex: 1; min-width: 0; }
+.task-main { flex: 1; min-width: 0; cursor: pointer; }
 .task-title { font-size: 14px; font-weight: 500; }
 .task-title.done { text-decoration: line-through; color: var(--text-secondary); }
 .task-meta { font-size: 12px; color: var(--text-secondary); margin-top: 1px; }
@@ -220,6 +220,10 @@ input[type="text"], input[type="date"] {
 .btn-primary-lg {
   width: 100%; margin-top: 1.25rem; background: var(--arcum-orange); color: #fff;
   border: none; height: 44px; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer;
+}
+.btn-delete-lg {
+  width: 100%; margin-top: 10px; background: none; color: var(--danger);
+  border: 1px solid var(--danger-bg); height: 44px; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer;
 }
 
 .error-text { color: var(--danger); font-size: 12px; margin-top: 4px; }

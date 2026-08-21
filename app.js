@@ -108,25 +108,41 @@ document.getElementById("filter-row").addEventListener("click", e => {
 const sheet = document.getElementById("sheet-new");
 let selAssignee = whoami || "ariel";
 let selPriority = "normal";
+let editingTaskId = null;
 
-function openSheet() {
-  document.getElementById("input-title").value = "";
-  document.getElementById("input-due").value = "";
+function openSheet(taskToEdit) {
   document.getElementById("err-title").style.display = "none";
-  selAssignee = whoami || "ariel";
-  selPriority = "normal";
+  if (taskToEdit) {
+    editingTaskId = taskToEdit.id;
+    document.getElementById("sheet-title").textContent = "Editar tarea";
+    document.getElementById("input-title").value = taskToEdit.title;
+    document.getElementById("input-due").value = taskToEdit.due_date || "";
+    selAssignee = taskToEdit.assignee;
+    selPriority = taskToEdit.priority;
+    document.getElementById("btn-save-task").textContent = "Guardar cambios";
+    document.getElementById("btn-delete-task").style.display = "block";
+  } else {
+    editingTaskId = null;
+    document.getElementById("sheet-title").textContent = "Nueva tarea";
+    document.getElementById("input-title").value = "";
+    document.getElementById("input-due").value = "";
+    selAssignee = whoami || "ariel";
+    selPriority = "normal";
+    document.getElementById("btn-save-task").textContent = "Guardar tarea";
+    document.getElementById("btn-delete-task").style.display = "none";
+  }
   syncToggle("toggle-assignee", selAssignee);
   syncToggle("toggle-priority", selPriority);
   sheet.style.display = "flex";
 }
-function closeSheet() { sheet.style.display = "none"; }
+function closeSheet() { sheet.style.display = "none"; editingTaskId = null; }
 function syncToggle(containerId, val) {
   document.querySelectorAll(`#${containerId} .toggle-opt`).forEach(el => {
     el.classList.toggle("sel-orange", el.dataset.val === val);
   });
 }
 
-document.getElementById("fab-add").addEventListener("click", openSheet);
+document.getElementById("fab-add").addEventListener("click", () => openSheet(null));
 document.getElementById("btn-close-sheet").addEventListener("click", closeSheet);
 sheet.addEventListener("click", e => { if (e.target === sheet) closeSheet(); });
 
@@ -152,14 +168,26 @@ document.getElementById("btn-save-task").addEventListener("click", async () => {
   const due = document.getElementById("input-due").value || null;
   const btn = document.getElementById("btn-save-task");
   btn.disabled = true;
-  const { error } = await supabase.from("tasks").insert({
-    title,
-    assignee: selAssignee,
-    priority: selPriority,
-    due_date: due,
-    created_by: whoami || selAssignee,
-    completed: false
-  });
+
+  let error;
+  if (editingTaskId) {
+    ({ error } = await supabase.from("tasks").update({
+      title,
+      assignee: selAssignee,
+      priority: selPriority,
+      due_date: due
+    }).eq("id", editingTaskId));
+  } else {
+    ({ error } = await supabase.from("tasks").insert({
+      title,
+      assignee: selAssignee,
+      priority: selPriority,
+      due_date: due,
+      created_by: whoami || selAssignee,
+      completed: false
+    }));
+  }
+
   btn.disabled = false;
   if (error) {
     console.error(error);
@@ -167,7 +195,24 @@ document.getElementById("btn-save-task").addEventListener("click", async () => {
     return;
   }
   closeSheet();
-  showToast("Tarea guardada");
+  showToast(editingTaskId ? "Tarea actualizada" : "Tarea guardada");
+});
+
+document.getElementById("btn-delete-task").addEventListener("click", async () => {
+  if (!editingTaskId) return;
+  const ok = confirm("¿Eliminar esta tarea? No se puede deshacer.");
+  if (!ok) return;
+  const btn = document.getElementById("btn-delete-task");
+  btn.disabled = true;
+  const { error } = await supabase.from("tasks").delete().eq("id", editingTaskId);
+  btn.disabled = false;
+  if (error) {
+    console.error(error);
+    showToast("No se pudo eliminar. Revisá la conexión.");
+    return;
+  }
+  closeSheet();
+  showToast("Tarea eliminada");
 });
 
 // ---------- Complete task ----------
@@ -376,6 +421,9 @@ function taskCard(t) {
     const ta = wrap.querySelector("textarea");
     completeTask(t.id, ta.value.trim());
   });
+
+  const mainArea = wrap.querySelector(".task-main");
+  if (mainArea) mainArea.addEventListener("click", () => openSheet(t));
 
   return wrap;
 }
