@@ -14,8 +14,6 @@ let openCompleteId = null;
 
 // ---------- Onboarding ----------
 function initOnboarding() {
-  if (whoami) return;
-  document.getElementById("onboard").style.display = "flex";
   document.querySelectorAll(".onboard-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       whoami = btn.dataset.who;
@@ -23,6 +21,9 @@ function initOnboarding() {
       document.getElementById("onboard").style.display = "none";
     });
   });
+  if (!whoami) {
+    document.getElementById("onboard").style.display = "flex";
+  }
 }
 document.getElementById("btn-whoami").addEventListener("click", () => {
   document.getElementById("onboard").style.display = "flex";
